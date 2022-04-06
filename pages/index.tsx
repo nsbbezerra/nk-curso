@@ -1,10 +1,32 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { AiOutlineHome } from "react-icons/ai";
+import { useEffect } from "react";
 import Header from "../components/header";
 
 const Home: NextPage = () => {
+  useEffect(() => {
+    const target = document.querySelectorAll("[data-anime]");
+    const animationClass = "animate-scroll";
+
+    function animeScroll() {
+      const windowTop = window.pageYOffset + (window.innerHeight * 3) / 5;
+      target.forEach((el) => {
+        if (windowTop > el.getBoundingClientRect().top) {
+          el.classList.add(animationClass);
+        } else {
+          el.classList.remove(animationClass);
+        }
+      });
+    }
+
+    window.addEventListener("scroll", () => {
+      setTimeout(() => {
+        animeScroll();
+      }, 200);
+    });
+  }, []);
+
   return (
     <div>
       <Head>
@@ -30,8 +52,11 @@ const Home: NextPage = () => {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 mt-12">
-            <div className="bg-white bg-opacity-5 rounded-md shadow-xl shadow-black h-fit">
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 mt-12"
+            data-anime="left"
+          >
+            <div className="bg-sky-500 bg-opacity-10 rounded-md shadow-lg h-fit hover:scale-105 transition-transform">
               <div className="flex flex-col items-center justify-center p-3 border-b border-b-black">
                 <div className="w-20">
                   <Image
@@ -63,7 +88,7 @@ const Home: NextPage = () => {
               </div>
             </div>
 
-            <div className="bg-white bg-opacity-5 rounded-md shadow-xl shadow-black h-fit">
+            <div className="bg-sky-500 bg-opacity-10 rounded-md shadow-lg h-fit hover:scale-105 transition-transform">
               <div className="flex flex-col items-center justify-center p-3 border-b border-b-black">
                 <div className="w-20">
                   <Image
@@ -95,7 +120,7 @@ const Home: NextPage = () => {
               </div>
             </div>
 
-            <div className="bg-white bg-opacity-5 rounded-md shadow-xl shadow-black h-fit">
+            <div className="bg-sky-500 bg-opacity-10 rounded-md shadow-lg h-fit hover:scale-105 transition-transform">
               <div className="flex flex-col items-center justify-center p-3 border-b border-b-black">
                 <div className="w-20">
                   <Image

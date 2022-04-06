@@ -15,7 +15,7 @@ export default function Header() {
   const [open, setOpen] = useState<boolean>(false);
 
   const MenuItems = () => (
-    <div className="flex flex-col gap-3 lg:gap-8 lg:items-center lg:flex-row border-t border-t-gray-800 w-full lg:w-fit pt-2 lg:pt-0 md:mb-5 lg:mb-0">
+    <div className="flex flex-col gap-3 lg:gap-8 lg:items-center lg:flex-row border-t border-t-gray-800 w-full lg:w-fit pt-2 lg:pt-0 md:mb-5 lg:mb-0 lg:border-t-0">
       <a className="h-10 lg:h-16 flex items-center gap-3 border-b-2 border-transparent hover:border-b-sky-300 -mb-1 cursor-pointer select-none font-medium text-gray-300">
         <AiOutlineHome />
         <span>Início</span>
@@ -103,7 +103,7 @@ export default function Header() {
               Aprenda a desenvolver com as tecnologias mais usadas pelas grandes
               empresas, entre neste universo junto conosco.
             </span>
-            <a className="flex items-center gap-3 px-5 h-12 bg-sky-500 active:ring-2 active:ring-sky-200 focus:ring-2 focus:ring-sky-200 rounded-md cursor-pointer hover:bg-sky-400 select-none font-medium text-xl">
+            <a className="flex items-center gap-3 px-5 h-14 bg-sky-500 active:ring-2 active:ring-sky-200 focus:ring-2 focus:ring-sky-200 rounded-md cursor-pointer hover:bg-sky-400 select-none font-medium text-lg">
               <AiOutlineForm />
               <span>Quero me Inscrever</span>
             </a>
