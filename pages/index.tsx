@@ -44,11 +44,11 @@ const Home: NextPage = () => {
 
       <Header />
 
-      <section id="conteudo" className="w-full mt-16">
+      <section id="objetivos" className="w-full mt-16">
         <div className="container mx-auto px-5 lg:px-20">
           <div className="flex items-center justify-center flex-col gap-3">
             <h1 className="text-center text-3xl md:text-4xl lg:text-5xl text-sky-200 font-extrabold">
-              Conteúdo do Curso
+              Objetivos do Curso
             </h1>
             <div className="bg-gradient-to-r from-blue-900 to-sky-600 h-1 w-52" />
             <span className="text-center text-sm">
@@ -57,25 +57,10 @@ const Home: NextPage = () => {
           </div>
 
           <div className="w-full mt-10" data-anime="left">
-            <Tabs.Root
-              orientation="horizontal"
-              onValueChange={(tab) => setSelected(tab)}
-              value={selected}
-              className="shadow-lg rounded-md overflow-hidden"
-            >
-              <Tabs.List
-                aria-label="tabs do conteúdo do curso"
-                className="grid grid-cols-3 border-b border-b-black w-full"
-              >
-                <Tabs.Trigger
-                  value="html"
-                  className={`flex items-center flex-col md:flex-row justify-center gap-1 md:gap-3 h-14 px-4 font-semibold md:text-xl text-sm ${
-                    selected === "html"
-                      ? "bg-sky-400 bg-opacity-40"
-                      : "bg-sky-400 bg-opacity-10"
-                  } rounded-tl-md`}
-                >
-                  <div className="w-7 md:w-10">
+            <div className="rounded-md shadow-lg bg-sky-400 bg-opacity-10">
+              <div className="grid grid-cols-3 border-b border-b-black">
+                <div className="flex flex-col justify-center items-center gap-2 p-3">
+                  <div className="w-7 md:w-16">
                     <Image
                       src={"/img/html.svg"}
                       alt="Programador NK Informática"
@@ -84,17 +69,10 @@ const Home: NextPage = () => {
                       layout="responsive"
                     />
                   </div>
-                  <span>HTML</span>
-                </Tabs.Trigger>
-                <Tabs.Trigger
-                  value="css"
-                  className={`flex items-center gap-1 flex-col md:flex-row md:gap-3 h-14 px-4 justify-center font-semibold md:text-xl text-sm ${
-                    selected === "css"
-                      ? "bg-sky-400 bg-opacity-40"
-                      : "bg-sky-400 bg-opacity-10"
-                  } border-l border-r border-l-black border-r-black`}
-                >
-                  <div className="w-7 md:w-10">
+                  <span className="font-bold">HTML</span>
+                </div>
+                <div className="flex flex-col justify-center items-center gap-2 p-3 border-l border-l-black border-r border-r-black">
+                  <div className="w-7 md:w-16">
                     <Image
                       src={"/img/css.svg"}
                       alt="Programador NK Informática"
@@ -103,17 +81,10 @@ const Home: NextPage = () => {
                       layout="responsive"
                     />
                   </div>
-                  <span>CSS</span>
-                </Tabs.Trigger>
-                <Tabs.Trigger
-                  value="javascript"
-                  className={`flex items-center flex-col md:flex-row gap-1 md:gap-3 h-14 px-4 justify-center font-semibold md:text-xl text-sm ${
-                    selected === "javascript"
-                      ? "bg-sky-400 bg-opacity-40"
-                      : "bg-sky-400 bg-opacity-10"
-                  } rounded-tr-md`}
-                >
-                  <div className="w-7 md:w-10">
+                  <span className="font-bold">CSS</span>
+                </div>
+                <div className="flex flex-col justify-center items-center gap-2 p-3">
+                  <div className="w-7 md:w-16">
                     <Image
                       src={"/img/javascript.svg"}
                       alt="Programador NK Informática"
@@ -122,100 +93,124 @@ const Home: NextPage = () => {
                       layout="responsive"
                     />
                   </div>
-                  <span>JavaScript</span>
-                </Tabs.Trigger>
-              </Tabs.List>
-              <Tabs.Content
-                value="html"
-                className="bg-sky-400 rounded-b-md bg-opacity-10 p-5"
-              >
-                <ul className="list-disc list-inside md:text-lg text-sm text-gray-400">
-                  <li>
-                    Introdução ao HTML - Exibir informações na Web, Sintaxe
-                  </li>
-                  <li>
-                    Estrutura do HTML - Conheceremos as TAGS, como utilizá-las e
-                    a aplicação de cada uma
-                  </li>
-                  <li>
-                    Listas em HTML - Aprenderemos como mostrar informações em
-                    listas
-                  </li>
-                  <li>
-                    Tabelas em HTML - Exibiremos informações utilizando tabelas,
-                    aprenderemos a utilizar cada TAG das tabelas
-                  </li>
-                  <li>
-                    Formulários - Criaremos formulários para captura de dados de
-                    usuários, utilizando as mais diversas formas de inputs
-                  </li>
-                  <li>
-                    Semântica do HTML - Organizaremos nosso site através das
-                    TAGs semânticas com o intuito de organizarmos o nosso
-                    conteúdo facilitando assim a indexação nos motores de busca
-                  </li>
-                  <li>Introdução ao SEO e Indexação utilizando HTML</li>
-                </ul>
-              </Tabs.Content>
-              <Tabs.Content
-                value="css"
-                className="bg-sky-400 rounded-b-md bg-opacity-10 p-5"
-              >
-                <ul className="list-disc list-inside md:text-lg text-gray-400 text-sm">
-                  <li>
-                    Introdução ao CSS - Aprenderemos como fazer link do CSS ao
-                    HTML do nosso site
-                  </li>
-                  <li>Sintaxe do CSS</li>
-                  <li>Trabalhando com Backgrounds, fontes, cores</li>
-                  <li>Box model, a fase inicial do CSS</li>
-                  <li>
-                    Trabalhando com Espaçamentos - Padding, margin, border
-                  </li>
-                  <li>Trabalhando com a propriedade Display</li>
-                  <li>Trabalhando com Flexbox</li>
-                  <li>Trabalhando com Grid</li>
-                  <li>
-                    Trabalhando com Responsividade utilizando Media Queries
-                  </li>
-                  <li>Trabalhando com Efeitos - Animações, Sombras e etc...</li>
-                </ul>
-              </Tabs.Content>
-              <Tabs.Content
-                value="javascript"
-                className="bg-sky-400 rounded-b-md bg-opacity-10 p-5"
-              >
-                <ul className="list-disc list-inside md:text-lg text-gray-400 text-sm">
-                  <li>
-                    Introdução ao JavaScript - A linguagem de programação que
-                    manipula os elementos da nossa página
-                  </li>
-                  <li>Declaração de variáveis - VAR, LET, CONST</li>
-                  <li>Tipos de variáveis - Boolean, String, Number</li>
-                  <li>Introdução à Listas - Objetos e Arrays</li>
-                  <li>
-                    Declaração de funções, e como utilizá-las para controlar
-                    nossa interface
-                  </li>
-                  <li>Introdução aos Loops - For, ForEach, While, Map</li>
-                  <li>Trabalhando com condicionais - IF e ELSE</li>
-                  <li>Trabalhando com manipulação de interface (DOM)</li>
-                  <li>
-                    Utilizando eventos de capturas de ações para manipular
-                    objetos
-                  </li>
-                </ul>
-              </Tabs.Content>
-            </Tabs.Root>
-          </div>
+                  <span className="font-bold">JavaScript</span>
+                </div>
+              </div>
 
-          <div data-anime="left" className="mt-7 flex flex-col">
-            <span className="text-sky-200 font-extrabold text-3xl md:text-4xl">
-              + Bônus
-            </span>
-            <span className="text-gray-400">
-              Criaremos 5 sites totalmente do 0.
-            </span>
+              <div className="py-5 px-10">
+                <ul className="list-inside list-disc text-gray-300">
+                  <li>Aprenderemos como funciona a estrutura de um site</li>
+                  <li>
+                    Aprenderemos a estruturar a página de um site utilizando a
+                    linguagem de marcação HTML5
+                  </li>
+                  <li>
+                    Aprenderemos a utilizar os conceitos básicos do HTML5, como
+                    sintaxe e semântica
+                  </li>
+                  <li>
+                    Aprenderemos a escrever e identificar as Tags do HTML5 para
+                    preparar a página do site para ser ranqueada e indexada
+                    pelos motores de busca, como Google, Bing, Yahoo e etc...
+                  </li>
+                  <li>
+                    Aprenderemos a capturar dados através dos formulários do
+                    HTML5
+                  </li>
+                  <li>
+                    Aprenderemos a estilizar a nossa página HTML5 com a
+                    linguagem de estilos CSS3, aprenderemos como utilizar fontes
+                    personalizadas, cores, cores de fundo, sombras,
+                    posicionamentos de elementos na página, alinhamento,
+                    controle de animações e muito mais...
+                  </li>
+                  <li>
+                    Aprenderemos a utilizar do CSS3 as melhores tecnologias para
+                    construção de layouts personalizados utilizando como por
+                    exemplo: Flexbox, Grid, Box-layout
+                  </li>
+                  <li>
+                    Aprenderemos a controlar todos os elementos da página
+                    utilizando a linguagem de programação JavaScript, utilizando
+                    dela os escutadores de eventos (event-listener), as capturas
+                    de dados dos inputs, cliques em botões, dando asas à uma
+                    gama de possibilidades para deixarmos o nosso site o mais
+                    profissional
+                  </li>
+                </ul>
+
+                <span className="text-3xl mt-5 block font-bold text-sky-200">
+                  + Bônus
+                </span>
+                <span>
+                  Aprenderemos a criar 5 site completos, veja abaixo os sites
+                  que replicaremos no nosso curso:
+                </span>
+
+                <div className="grid grid-cols-5 mt-3 gap-5">
+                  <div className="flex flex-col justify-center items-center">
+                    <div className="w-full rounded-md overflow-hidden shadow-md">
+                      <Image
+                        src={"/img/instagram.png"}
+                        alt="Programador NK Informática"
+                        width={1360}
+                        height={680}
+                        layout="responsive"
+                      />
+                    </div>
+                    <span>Instagram</span>
+                  </div>
+                  <div className="flex flex-col justify-center items-center">
+                    <div className="w-full rounded-md overflow-hidden shadow-md">
+                      <Image
+                        src={"/img/twitter.png"}
+                        alt="Programador NK Informática"
+                        width={1360}
+                        height={680}
+                        layout="responsive"
+                      />
+                    </div>
+                    <span>Twitter</span>
+                  </div>
+                  <div className="flex flex-col justify-center items-center">
+                    <div className="w-full rounded-md overflow-hidden shadow-md">
+                      <Image
+                        src={"/img/i435003.png"}
+                        alt="Programador NK Informática"
+                        width={1360}
+                        height={680}
+                        layout="responsive"
+                      />
+                    </div>
+                    <span>Spotify</span>
+                  </div>
+                  <div className="flex flex-col justify-center items-center">
+                    <div className="w-full rounded-md overflow-hidden shadow-md">
+                      <Image
+                        src={"/img/facebook.jpg"}
+                        alt="Programador NK Informática"
+                        width={1360}
+                        height={680}
+                        layout="responsive"
+                      />
+                    </div>
+                    <span>Facebook</span>
+                  </div>
+                  <div className="flex flex-col justify-center items-center">
+                    <div className="w-full rounded-md overflow-hidden shadow-md">
+                      <Image
+                        src={"/img/youtube.png"}
+                        alt="Programador NK Informática"
+                        width={1360}
+                        height={680}
+                        layout="responsive"
+                      />
+                    </div>
+                    <span>Youtube</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

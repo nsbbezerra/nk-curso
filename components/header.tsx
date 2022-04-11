@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import {
   AiOutlineBook,
@@ -16,14 +17,18 @@ export default function Header() {
 
   const MenuItems = () => (
     <div className="flex flex-col gap-3 lg:gap-8 lg:items-center lg:flex-row border-t border-t-gray-800 w-full lg:w-fit pt-2 lg:pt-0 md:mb-5 lg:mb-0 lg:border-t-0">
-      <a className="h-10 lg:h-16 flex items-center gap-3 border-b-2 border-transparent hover:border-b-sky-300 -mb-1 cursor-pointer select-none font-medium text-gray-300">
-        <AiOutlineHome />
-        <span>Início</span>
-      </a>
-      <a className="h-10 lg:h-16 flex items-center gap-3 border-b-2 border-transparent hover:border-b-sky-300 -mb-1 cursor-pointer select-none font-medium text-gray-300">
-        <AiOutlineBook />
-        <span>Conteúdo</span>
-      </a>
+      <Link href={"/"} passHref>
+        <a className="h-10 lg:h-16 flex items-center gap-3 border-b-2 border-transparent hover:border-b-sky-300 -mb-1 cursor-pointer select-none font-medium text-gray-300">
+          <AiOutlineHome />
+          <span>Início</span>
+        </a>
+      </Link>
+      <Link href="#objetivos" passHref>
+        <a className="h-10 lg:h-16 flex items-center gap-3 border-b-2 border-transparent hover:border-b-sky-300 -mb-1 cursor-pointer select-none font-medium text-gray-300">
+          <AiOutlineBook />
+          <span>Objetivos</span>
+        </a>
+      </Link>
       <a className="h-10 lg:h-16 flex items-center gap-3 border-b-2 border-transparent hover:border-b-sky-300 -mb-1 cursor-pointer select-none font-medium text-gray-300">
         <AiOutlineDollar />
         <span>Preço</span>
