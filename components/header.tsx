@@ -8,7 +8,6 @@ import {
   AiOutlineHome,
   AiOutlineInfoCircle,
   AiOutlineMenu,
-  AiOutlinePhone,
   AiOutlineUser,
 } from "react-icons/ai";
 
@@ -35,18 +34,24 @@ export default function Header() {
           <span>Preço</span>
         </a>
       </Link>
-      <a className="h-10 lg:h-16 flex items-center gap-3 border-b-2 border-transparent hover:border-b-sky-300 -mb-1 cursor-pointer select-none font-medium text-gray-300">
-        <AiOutlineInfoCircle />
-        <span>Sobre Nós</span>
-      </a>
-      <a className="h-10 lg:h-16 flex items-center gap-3 border-b-2 border-transparent hover:border-b-sky-300 -mb-1 cursor-pointer select-none font-medium text-gray-300">
-        <AiOutlinePhone />
-        <span>Fale Conosco</span>
-      </a>
-      <a className="flex md:hidden items-center gap-3 px-3 h-11 border border-sky-400 active:ring-2 active:ring-sky-200 focus:ring-2 focus:ring-sky-200 rounded-md cursor-pointer hover:bg-sky-400 select-none font-medium mb-5 w-fit mt-2">
-        <AiOutlineUser />
-        <span>Minha Inscrição</span>
-      </a>
+      <Link href={"#inscricao"} passHref>
+        <a className="h-10 lg:h-16 flex items-center gap-3 border-b-2 border-transparent hover:border-b-sky-300 -mb-1 cursor-pointer select-none font-medium text-gray-300">
+          <AiOutlineForm />
+          <span>Inscrição</span>
+        </a>
+      </Link>
+      <Link passHref href={"#sobre"}>
+        <a className="h-10 lg:h-16 flex items-center gap-3 border-b-2 border-transparent hover:border-b-sky-300 -mb-1 cursor-pointer select-none font-medium text-gray-300">
+          <AiOutlineInfoCircle />
+          <span>Sobre Nós</span>
+        </a>
+      </Link>
+      <Link passHref href={"/minhainscricao"}>
+        <a className="flex md:hidden items-center gap-3 px-3 h-11 border border-sky-400 active:ring-2 active:ring-sky-200 focus:ring-2 focus:ring-sky-200 rounded-md cursor-pointer hover:bg-sky-400 select-none font-medium mb-5 w-fit mt-2">
+          <AiOutlineUser />
+          <span>Minha Inscrição</span>
+        </a>
+      </Link>
     </div>
   );
 
@@ -69,11 +74,12 @@ export default function Header() {
           </div>
 
           <div className="flex gap-3 items-center">
-            <a className="hidden md:flex items-center gap-3 px-3 h-11 border border-sky-400 active:ring-2 active:ring-sky-200 focus:ring-2 focus:ring-sky-200 rounded-md cursor-pointer hover:bg-sky-400 select-none font-medium">
-              <AiOutlineUser />
-              <span>Minha Inscrição</span>
-            </a>
-
+            <Link passHref href={"/minhainscricao"}>
+              <a className="hidden md:flex items-center gap-3 px-3 h-11 border border-sky-400 active:ring-2 active:ring-sky-200 focus:ring-2 focus:ring-sky-200 rounded-md cursor-pointer hover:bg-sky-400 select-none font-medium">
+                <AiOutlineUser />
+                <span>Minha Inscrição</span>
+              </a>
+            </Link>
             <button
               className="flex items-center gap-3 px-2 h-11 w-11 justify-center border border-sky-400 active:ring-2 active:ring-sky-200 focus:ring-2 focus:ring-sky-200 rounded-md cursor-pointer hover:bg-sky-400 select-none font-medium text-xl lg:hidden"
               onClick={() => setOpen(!open)}
@@ -103,20 +109,22 @@ export default function Header() {
           </div>
           <div className="md:col-span-2 h-full flex flex-col justify-center items-center gap-5">
             <h1 className="text-center text-3xl md:text-3xl lg:text-4xl font-extrabold xl:text-5xl text-sky-200">
-              Dê asas à sua imaginação, aprenda a criar e desenvolver sistemas e
-              websites de forma prática e simplificada.
+              Dê asas à sua imaginação, aprenda a criar e desenvolver sites de
+              forma prática e simplificada.
             </h1>
             <span className="text-center w-10/12 lg:text-base text-xs">
               Aprenda a desenvolver com as tecnologias mais usadas pelas grandes
               empresas, entre neste universo junto conosco.
             </span>
-            <a
-              className="flex items-center gap-3 px-5 h-14 bg-sky-500 active:ring-2 active:ring-sky-200 focus:ring-2 focus:ring-sky-200 rounded-md cursor-pointer hover:bg-sky-400 select-none font-medium text-lg"
-              id="objetivos"
-            >
-              <AiOutlineForm />
-              <span>Quero me Inscrever</span>
-            </a>
+            <Link passHref href={"#inscricao"}>
+              <a
+                className="flex items-center gap-3 px-5 h-14 bg-gradient-to-r from-sky-500 to-purple-400 active:ring-2 active:ring-sky-200 focus:ring-2 focus:ring-sky-200 rounded-md cursor-pointer hover:opacity-90 select-none font-medium text-lg"
+                id="objetivos"
+              >
+                <AiOutlineForm />
+                <span>Quero me Inscrever</span>
+              </a>
+            </Link>
           </div>
         </div>
       </section>

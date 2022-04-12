@@ -12,6 +12,7 @@ import {
 } from "react-icons/ai";
 import ReactInputMask from "react-input-mask";
 import * as Select from "@radix-ui/react-select";
+import Footer from "../components/footer";
 
 const Home: NextPage = () => {
   useEffect(() => {
@@ -238,10 +239,7 @@ const Home: NextPage = () => {
 
       <section className="mt-16 w-full relative">
         <div className=" bg-sky-400 bg-opacity-10 h-full w-full">
-          <div
-            className="container mx-auto px-10 text-center py-14 w-full"
-            data-anime="left"
-          >
+          <div className="container mx-auto px-10 text-center py-14 w-full">
             <div className="flex flex-col items-center justify-center gap-3 h-fll">
               <div className="flex items-center justify-center flex-col gap-3">
                 <h1 className="text-center text-4xl  text-sky-50 font-extrabold">
@@ -272,14 +270,13 @@ const Home: NextPage = () => {
               </div>
             </div>
 
-            <div className="flex justify-center items-center mt-3 gap-2 text-xl sm:text-2xl text-yellow-400 font-bold">
+            <div
+              className="flex justify-center items-center mt-3 gap-2 text-xl sm:text-2xl text-yellow-400 font-bold"
+              id="inscricao"
+            >
               <AiOutlineCalendar />
               <span>Inscrições até 15/05/2022</span>
             </div>
-
-            <a className="px-10 py-3 bg-gradient-to-r from-sky-500 to-purple-400 mx-auto flex w-fit mt-5 rounded-md text-xl shadow-md cursor-pointer hover:opacity-80 active:ring-2 active:ring-sky-200 focus:ring-2 focus:ring-sky-200 select-none active:opacity-100">
-              Quero garantir minha vaga
-            </a>
           </div>
         </div>
       </section>
@@ -381,6 +378,8 @@ const Home: NextPage = () => {
           </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 };
