@@ -1,20 +1,35 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "../components/header";
 import { BsMegaphoneFill } from "react-icons/bs";
 import {
   AiOutlineCalendar,
   AiOutlineDollar,
-  AiOutlineSave,
   AiOutlineSend,
 } from "react-icons/ai";
-import ReactInputMask from "react-input-mask";
-import * as Select from "@radix-ui/react-select";
+import { Form } from "@unform/web";
+import axios from "axios";
 import Footer from "../components/footer";
+import Input from "../components/input";
+import InputMask from "../components/inputMask";
+import { FormHandles, SubmitHandler } from "@unform/core";
+import * as Yup from "yup";
+
+interface ISubscribe {
+  name: string;
+  cpf: string;
+  phone: string;
+  email?: string;
+  sala: string;
+  obs?: string;
+}
 
 const Home: NextPage = () => {
+  const formRef = useRef<FormHandles>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
     const target = document.querySelectorAll("[data-anime]");
     const animationClass = "animate-scroll";
@@ -36,6 +51,39 @@ const Home: NextPage = () => {
       }, 200);
     });
   }, []);
+
+  const subscribe: SubmitHandler<ISubscribe> = async (data, { reset }) => {
+    try {
+      const schema = Yup.object().shape({
+        name: Yup.string().required("Insira o seu nome"),
+        cpf: Yup.string().required("Insira o seu CPF"),
+        phone: Yup.string().required("Insira o seu telefone"),
+        email: Yup.string().email("Insira um email válido"),
+        sala: Yup.string().required("Insira um período de estudo"),
+        obs: Yup.string(),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+      setLoading(true);
+      const response = await axios.post("/api/subscribe", data);
+
+      alert(response.data.message);
+      setLoading(false);
+      reset();
+    } catch (error) {
+      setLoading(false);
+      if (error instanceof Yup.ValidationError) {
+        error.inner.forEach((err) => {
+          alert(err.message);
+        });
+      }
+      if (axios.isAxiosError(error) && error.message) {
+        alert(error.response?.data.message);
+      }
+    }
+  };
 
   return (
     <div>
@@ -282,101 +330,104 @@ const Home: NextPage = () => {
       </section>
 
       <section className="mt-16 w-full">
-        <div className="container mx-auto px-10 flex flex-col gap-3">
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-center flex-col gap-3">
-              <h1 className="text-center text-3xl md:text-4xl lg:text-5xl text-sky-200 font-extrabold">
-                Faça sua Inscrição Aqui
-              </h1>
-              <div className="bg-gradient-to-r from-blue-900 to-sky-600 h-1 w-52" />
+        <Form ref={formRef} onSubmit={subscribe}>
+          <div className="container mx-auto px-10 flex flex-col gap-3">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-center flex-col gap-3">
+                <h1 className="text-center text-3xl md:text-4xl lg:text-5xl text-sky-200 font-extrabold">
+                  Faça sua Inscrição Aqui
+                </h1>
+                <div className="bg-gradient-to-r from-blue-900 to-sky-600 h-1 w-52" />
+              </div>
             </div>
-          </div>
-          <div className="mt-10">
-            <label>
-              Nome Completo <span className="text-red-400">*</span>
-            </label>
-            <input
-              type="text"
-              name="company-website"
-              id="company-website"
-              className="flex-1 block w-full rounded-md sm:text-sm px-4 py-3 bg-transparent border-sky-200 border outline-none focus:ring-sky-100 focus:border-sky-200 focus:ring-2"
-              placeholder="Nome Completo"
-            />
-          </div>
+            <div className="mt-10">
+              <label>
+                Nome Completo <span className="text-red-400">*</span>
+              </label>
+              <Input
+                name="name"
+                className="flex-1 block w-full rounded-md sm:text-sm px-4 py-3 bg-transparent border-sky-200 border outline-none focus:ring-sky-100 focus:border-sky-200 focus:ring-2"
+                placeholder="Nome Completo"
+              />
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <div>
-              <label>
-                CPF <span className="text-red-400">*</span>
-              </label>
-              <ReactInputMask
-                mask={"999.999.999-99"}
-                type="text"
-                name="company-website"
-                id="company-website"
-                className="flex-1 block w-full rounded-md sm:text-sm px-4 py-3 bg-transparent border-sky-200 border outline-none focus:ring-sky-100 focus:border-sky-200 focus:ring-2"
-                placeholder="CPF"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div>
+                <label>
+                  CPF <span className="text-red-400">*</span>
+                </label>
+                <InputMask
+                  mask={"999.999.999-99"}
+                  name="cpf"
+                  className="flex-1 block w-full rounded-md sm:text-sm px-4 py-3 bg-transparent border-sky-200 border outline-none focus:ring-sky-100 focus:border-sky-200 focus:ring-2"
+                  placeholder="CPF"
+                />
+              </div>
+              <div>
+                <label>
+                  Whatsapp <span className="text-red-400">*</span>
+                </label>
+                <InputMask
+                  mask={"(99) 99999-9999"}
+                  name="phone"
+                  className="flex-1 block w-full rounded-md sm:text-sm px-4 py-3 bg-transparent border-sky-200 border outline-none focus:ring-sky-100 focus:border-sky-200 focus:ring-2"
+                  placeholder="Whatsapp"
+                />
+              </div>
+              <div>
+                <label>Email</label>
+                <Input
+                  name="email"
+                  className="flex-1 block w-full rounded-md sm:text-sm px-4 py-3 bg-transparent border-sky-200 border outline-none focus:ring-sky-100 focus:border-sky-200 focus:ring-2"
+                  placeholder="Email"
+                />
+              </div>
             </div>
-            <div>
-              <label>
-                Whatsapp <span className="text-red-400">*</span>
-              </label>
-              <ReactInputMask
-                mask={"(99) 99999-9999"}
-                type="text"
-                name="company-website"
-                id="company-website"
-                className="flex-1 block w-full rounded-md sm:text-sm px-4 py-3 bg-transparent border-sky-200 border outline-none focus:ring-sky-100 focus:border-sky-200 focus:ring-2"
-                placeholder="Whatsapp"
-              />
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              <div>
+                <label>
+                  Escolha um período para realizar o curso{" "}
+                  <span className="text-red-400">*</span>
+                </label>
+                <Input
+                  name="sala"
+                  className="flex-1 block w-full rounded-md sm:text-sm px-4 py-3 bg-transparent border-sky-200 border outline-none focus:ring-sky-100 focus:border-sky-200 focus:ring-2"
+                  placeholder="Manhã, tarde ou noite"
+                />
+              </div>
+              <div>
+                <label>Deixe uma observação</label>
+                <Input
+                  name="obs"
+                  className="flex-1 block w-full rounded-md sm:text-sm px-4 py-3 bg-transparent border-sky-200 border outline-none focus:ring-sky-100 focus:border-sky-200 focus:ring-2"
+                  placeholder="Deixe uma observação"
+                />
+              </div>
             </div>
-            <div>
-              <label>Email</label>
-              <input
-                type="text"
-                name="company-website"
-                id="company-website"
-                className="flex-1 block w-full rounded-md sm:text-sm px-4 py-3 bg-transparent border-sky-200 border outline-none focus:ring-sky-100 focus:border-sky-200 focus:ring-2"
-                placeholder="Email"
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            <div>
-              <label>
-                Escolha um período para realizar o curso{" "}
-                <span className="text-red-400">*</span>
-              </label>
-              <input
-                name="company-website"
-                id="company-website"
-                className="flex-1 block w-full rounded-md sm:text-sm px-4 py-3 bg-transparent border-sky-200 border outline-none focus:ring-sky-100 focus:border-sky-200 focus:ring-2"
-                placeholder="Manhã, tarde ou noite"
-              />
-            </div>
-            <div>
-              <label>Deixe uma observação</label>
-              <input
-                name="company-website"
-                id="company-website"
-                className="flex-1 block w-full rounded-md sm:text-sm px-4 py-3 bg-transparent border-sky-200 border outline-none focus:ring-sky-100 focus:border-sky-200 focus:ring-2"
-                placeholder="Deixe uma observação"
-              />
-            </div>
-          </div>
 
-          <div className="flex gap-3 items-center flex-col md:flex-row">
-            <button className="flex items-center justify-center gap-3 px-10 py-3 bg-gradient-to-r from-sky-500 to-purple-400 active:ring-2 active:ring-sky-200 focus:ring-2 focus:ring-sky-200 rounded-md cursor-pointer hover:opacity-90 select-none font-medium mb-5 md:w-fit mt-2 text-xl w-full">
-              <AiOutlineSend />
-              <span>Garantir minha vaga</span>
-            </button>
-            <div className="flex flex-col -mt-2">
-              <span className="text-sm">Você irá pagar</span>
-              <span className="text-sky-200 font-bold text-lg">R$ 100,00</span>
+            <div className="flex gap-3 items-center flex-col md:flex-row">
+              <button
+                className={`flex items-center justify-center gap-3 px-10 py-3 bg-gradient-to-r from-sky-500 to-purple-400 active:ring-2 active:ring-sky-200 focus:ring-2 focus:ring-sky-200 rounded-md cursor-pointer hover:opacity-90 select-none font-medium mb-5 md:w-fit mt-2 text-xl w-full ${
+                  loading &&
+                  "opacity-40 cursor-not-allowed hover:opacity-40 active:ring-0"
+                }`}
+                type="submit"
+                disabled={loading}
+              >
+                <AiOutlineSend />
+                <span>
+                  {loading ? "Enviando dados..." : "Garantir minha vaga"}
+                </span>
+              </button>
+              <div className="flex flex-col -mt-2">
+                <span className="text-sm">Você irá pagar</span>
+                <span className="text-sky-200 font-bold text-lg">
+                  R$ 100,00
+                </span>
+              </div>
             </div>
           </div>
-        </div>
+        </Form>
       </section>
 
       <Footer />
