@@ -12,6 +12,7 @@ import InpuMask from "../components/inputMask";
 import * as Yup from "yup";
 import { Form } from "@unform/web";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 interface ISubscribe {
   _id: string;
@@ -32,6 +33,7 @@ export default function Register() {
   const formRef = useRef<FormHandles>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [subscribe, setSubscribe] = useState<ISubscribe>();
+  const { push } = useRouter();
 
   const findSubscribe: SubmitHandler<FormProps> = async (data) => {
     try {
@@ -59,6 +61,26 @@ export default function Register() {
       }
       if (axios.isAxiosError(error) && error.message) {
         alert(error.response?.data.message);
+      }
+    }
+  };
+
+  const tryPayAgain = async () => {
+    try {
+      setLoading(true);
+
+      const response = await axios.post("/api/payAgain", {
+        id: subscribe?._id,
+      });
+      push(response.data.url);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      if (axios.isAxiosError(error) && error.message) {
+        alert(error.response?.data.message);
+      } else {
+        let message = (error as Error).message;
+        alert(message);
       }
     }
   };
@@ -165,7 +187,7 @@ export default function Register() {
                           "opacity-40 cursor-not-allowed hover:opacity-40 active:ring-0"
                         }`}
                         disabled={loading}
-                        onClick={() => {}}
+                        onClick={() => tryPayAgain()}
                       >
                         <AiOutlineDollar />
                         <span>
