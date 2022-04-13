@@ -10,7 +10,7 @@ mercadopago.configure({
 async function saveStatus(id: string, method: string, sub: string) {
   await subscribe.findOneAndUpdate(
     { _id: sub },
-    { $set: { paymend_id: id, payment_method: method } }
+    { $set: { paymend_id: id, payment_method: method, status: "confirmed" } }
   );
 }
 
