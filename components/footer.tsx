@@ -89,7 +89,7 @@ export default function Footer() {
                 <span className="block mt-2 text-sm">Palmieri Uniformes</span>
               </a>
             </Link>
-            <Link href={"https://palmieriuniformes.com.br/"} passHref>
+            <Link href={"https://santamariadotocantins.to.gov.br/"} passHref>
               <a
                 target={"_blank"}
                 className="flex flex-col items-center justify-center w-full hover:scale-105 transition-all"

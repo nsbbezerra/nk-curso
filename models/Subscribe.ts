@@ -39,6 +39,7 @@ schema.pre("save", function (next) {
   next();
 });
 
-const subscribe = model<ISubscribe>("Register", schema);
+const subscribe =
+  mongoose.models.Register || model<ISubscribe>("Register", schema);
 
 export { subscribe };

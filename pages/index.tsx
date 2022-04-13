@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import Header from "../components/header";
 import { BsMegaphoneFill } from "react-icons/bs";
 import {
@@ -16,6 +16,8 @@ import Input from "../components/input";
 import InputMask from "../components/inputMask";
 import { FormHandles, SubmitHandler } from "@unform/core";
 import * as Yup from "yup";
+import { useRouter } from "next/router";
+import Select from "../components/select";
 
 interface ISubscribe {
   name: string;
@@ -29,6 +31,7 @@ interface ISubscribe {
 const Home: NextPage = () => {
   const formRef = useRef<FormHandles>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const { push } = useRouter();
 
   useEffect(() => {
     const target = document.querySelectorAll("[data-anime]");
@@ -68,10 +71,10 @@ const Home: NextPage = () => {
       });
       setLoading(true);
       const response = await axios.post("/api/subscribe", data);
-
-      alert(response.data.message);
+      alert(`${response.data.message}, pressione OK para ir ao pagamento`);
       setLoading(false);
       reset();
+      push(response.data.url);
     } catch (error) {
       setLoading(false);
       if (error instanceof Yup.ValidationError) {
@@ -86,7 +89,7 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div>
+    <Fragment>
       <Head>
         <title>NK Informática | Desenvolvendo o Mundo com você!</title>
         <meta
@@ -389,11 +392,12 @@ const Home: NextPage = () => {
                   Escolha um período para realizar o curso{" "}
                   <span className="text-red-400">*</span>
                 </label>
-                <Input
-                  name="sala"
-                  className="flex-1 block w-full rounded-md sm:text-sm px-4 py-3 bg-transparent border-sky-200 border outline-none focus:ring-sky-100 focus:border-sky-200 focus:ring-2"
-                  placeholder="Manhã, tarde ou noite"
-                />
+                <Select name="sala">
+                  <option value={""}>Selecione uma opção</option>
+                  <option value="Manhã">Manhã</option>
+                  <option value="Tarde">Tarde</option>
+                  <option value="Noite">Noite</option>
+                </Select>
               </div>
               <div>
                 <label>Deixe uma observação</label>
@@ -431,7 +435,7 @@ const Home: NextPage = () => {
       </section>
 
       <Footer />
-    </div>
+    </Fragment>
   );
 };
 

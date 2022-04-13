@@ -1,6 +1,5 @@
-import { subscribe } from "../../models/Subscribe";
-
 import type { NextApiRequest, NextApiResponse } from "next";
+
 import mercadopago from "mercadopago";
 import { configs } from "../../configs/configs";
 
@@ -8,28 +7,15 @@ mercadopago.configure({
   access_token: configs.mp_test,
 });
 
-export default async function Subscribe(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const { name, cpf, phone, email, sala, obs } = req.body;
+export default function PayAgain(req: NextApiRequest, res: NextApiResponse) {
+  const { id } = req.body;
 
   try {
-    const mySub = await subscribe.create({
-      name,
-      cpf,
-      phone,
-      email,
-      sala,
-      obs,
-      status: "wait",
-    });
-
     let preference = {
-      external_reference: mySub._id.toString(),
+      external_reference: id.toString(),
       notification_url: `${
         configs.ambient === "dev" ? configs.webhook : configs.url_production
-      }/confirm/${mySub._id}`,
+      }/confirm/${id}`,
       items: [
         {
           title: `Curso de Programação de sites - NK Informática`,
@@ -73,10 +59,8 @@ export default async function Subscribe(
         });
       });
   } catch (error) {
-    const errorMessage = (error as Error).message;
-    return res.status(400).json({
-      message: "Ocorreu um erro ao concluir sua inscrição",
-      errorMessage,
-    });
+    return res
+      .status(400)
+      .json({ message: "Ocorreu um erro ao processar o pagamento" });
   }
 }
