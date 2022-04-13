@@ -4,7 +4,8 @@ import { configs } from "../../../configs/configs";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 mercadopago.configure({
-  access_token: configs.mp_test,
+  access_token:
+    configs.ambient === "dev" ? configs.mp_test : configs.mp_production,
 });
 
 async function saveStatus(id: string, method: string, sub: string) {

@@ -5,7 +5,8 @@ import mercadopago from "mercadopago";
 import { configs } from "../../configs/configs";
 
 mercadopago.configure({
-  access_token: configs.mp_test,
+  access_token:
+    configs.ambient === "dev" ? configs.mp_test : configs.mp_production,
 });
 
 export default async function Subscribe(
