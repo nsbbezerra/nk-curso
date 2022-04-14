@@ -16,7 +16,7 @@ export default function PayAgain(req: NextApiRequest, res: NextApiResponse) {
       external_reference: id.toString(),
       notification_url: `${
         configs.ambient === "dev" ? configs.webhook : configs.url_production
-      }/confirm/${id}`,
+      }/api/confirm/${id}`,
       items: [
         {
           title: `Curso de Programação de sites - NK Informática`,

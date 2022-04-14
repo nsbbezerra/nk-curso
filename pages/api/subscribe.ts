@@ -30,7 +30,7 @@ export default async function Subscribe(
       external_reference: mySub._id.toString(),
       notification_url: `${
         configs.ambient === "dev" ? configs.webhook : configs.url_production
-      }/confirm/${mySub._id}`,
+      }/api/confirm/${mySub._id}`,
       items: [
         {
           title: `Curso de Programação de sites - NK Informática`,
