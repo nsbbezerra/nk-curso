@@ -28,9 +28,7 @@ export default function Confirm(req: NextApiRequest, res: NextApiResponse) {
           const status = response.status;
           const payment_id = response.payment_type_id;
           const payment_method = response.payment_method_id;
-          if (status === "approved") {
-            saveStatus(payment_id, payment_method, subusc);
-          }
+
           return res.status(201).json({ message: "OK" });
         })
         .catch((err) => {

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import {
   AiOutlineCheckCircle,
   AiOutlineClose,
@@ -15,8 +15,32 @@ import axios from "axios";
 
 export default function Finish() {
   const { query, push } = useRouter();
-  const { status, external_reference } = query;
+  const { status, external_reference, payment_type, payment_id } = query;
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    async function updateStatus() {
+      try {
+        const response = await axios.post("/api/validate", {
+          id: external_reference,
+          paymend_id: payment_id,
+          payment_method: payment_type,
+          status,
+        });
+        console.log(response.data);
+        alert(response.data.message);
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.message) {
+          alert(error.response?.data.message);
+        } else {
+          let message = (error as Error).message;
+          alert(message);
+        }
+      }
+    }
+
+    updateStatus();
+  }, [status, payment_id, payment_type, external_reference]);
 
   const tryPayAgain = async () => {
     try {

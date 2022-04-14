@@ -23,6 +23,7 @@ interface ISubscribe {
   sala: string;
   obs?: string;
   status: "wait" | "confirmed" | "refused";
+  paymend_id: string;
 }
 
 interface FormProps {
@@ -32,6 +33,8 @@ interface FormProps {
 export default function Register() {
   const formRef = useRef<FormHandles>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingPayAgain, setLoadingPayAgain] = useState<boolean>(false);
+  const [loadingFind, setLoadingFind] = useState<boolean>(false);
   const [subscribe, setSubscribe] = useState<ISubscribe>();
   const { push } = useRouter();
 
@@ -67,15 +70,36 @@ export default function Register() {
 
   const tryPayAgain = async () => {
     try {
-      setLoading(true);
+      setLoadingPayAgain(true);
 
       const response = await axios.post("/api/payAgain", {
         id: subscribe?._id,
       });
       push(response.data.url);
-      setLoading(false);
+      setLoadingPayAgain(false);
     } catch (error) {
-      setLoading(false);
+      setLoadingPayAgain(false);
+      if (axios.isAxiosError(error) && error.message) {
+        alert(error.response?.data.message);
+      } else {
+        let message = (error as Error).message;
+        alert(message);
+      }
+    }
+  };
+
+  const findStatusPay = async () => {
+    try {
+      setLoadingFind(true);
+      const response = await axios.post("/api/confirmed", {
+        payment_id: subscribe?.paymend_id,
+        id: subscribe?._id,
+      });
+      console.log(response.data);
+      alert(response.data.message);
+      setLoadingFind(false);
+    } catch (error) {
+      setLoadingFind(false);
       if (axios.isAxiosError(error) && error.message) {
         alert(error.response?.data.message);
       } else {
@@ -174,28 +198,47 @@ export default function Register() {
                       (subscribe?.status === "refused" && "text-red-600")
                     }  font-bold sm:mt-0 sm:col-span-2`}
                   >
-                    {(subscribe?.status === "confirmed" && "Confirmado") ||
+                    {(subscribe?.status === "confirmed" &&
+                      "Inscrição confirmada") ||
                       (subscribe?.status === "wait" &&
                         "Aguardando Pagamento") ||
                       (subscribe?.status === "refused" &&
                         "Houve um problema com seu pagamento")}
 
                     {subscribe?.status !== "confirmed" && subscribe?.status ? (
-                      <button
-                        className={`h-10 flex items-center justify-center gap-3 bg-gradient-to-r from-green-400 to-green-600 px-4 font-semibold rounded-md shadow-lg active:ring-2 active:ring-sky-200 focus:ring-2 focus:ring-sky-200 select-none hover:opacity-90 cursor-pointer mt-2 text-gray-900 ${
-                          loading &&
-                          "opacity-40 cursor-not-allowed hover:opacity-40 active:ring-0"
-                        }`}
-                        disabled={loading}
-                        onClick={() => tryPayAgain()}
-                      >
-                        <AiOutlineDollar />
-                        <span>
-                          {loading === true
-                            ? "Processando o pagamento..."
-                            : "Tentar pagar novamente"}
-                        </span>
-                      </button>
+                      <div className="flex items-center gap-1 justify-center flex-col md:flex-row md:gap-4">
+                        <button
+                          className={`h-10 flex items-center justify-center gap-3 bg-gradient-to-r from-green-400 to-green-600 px-4 font-semibold rounded-md shadow-lg active:ring-2 active:ring-sky-200 focus:ring-2 focus:ring-sky-200 select-none hover:opacity-90 cursor-pointer mt-2 text-gray-900 ${
+                            loadingPayAgain &&
+                            "opacity-40 cursor-not-allowed hover:opacity-40 active:ring-0"
+                          }`}
+                          disabled={loadingPayAgain}
+                          onClick={() => tryPayAgain()}
+                        >
+                          <AiOutlineDollar />
+                          <span>
+                            {loadingPayAgain === true
+                              ? "Processando o pagamento..."
+                              : "Tentar pagar novamente"}
+                          </span>
+                        </button>
+                        <span className="text-white">ou</span>
+                        <button
+                          className={`h-10 flex items-center justify-center gap-3 bg-gradient-to-r from-blue-400 to-blue-600 px-4 font-semibold rounded-md shadow-lg active:ring-2 active:ring-sky-200 focus:ring-2 focus:ring-sky-200 select-none hover:opacity-90 cursor-pointer mt-2 text-gray-100 ${
+                            loadingFind &&
+                            "opacity-40 cursor-not-allowed hover:opacity-40 active:ring-0"
+                          }`}
+                          disabled={loadingFind}
+                          onClick={() => findStatusPay()}
+                        >
+                          <AiOutlineDollar />
+                          <span>
+                            {loadingFind === true
+                              ? "Atualizando o pagamento..."
+                              : "Validar o Pagamento"}
+                          </span>
+                        </button>
+                      </div>
                     ) : (
                       ""
                     )}
